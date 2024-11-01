@@ -6,13 +6,28 @@
 // Read the data you have passed.
 
 
-import { Component, createContext } from 'react'
+import { createContext, useState } from 'react';
+import PropTypes from 'prop-types';
 
+// Create a Context
 export const ThemeContext = createContext();
-export default class ThemeContextProvider extends Component {
-  render() {
-    return (
-      <div>Provider</div>
-    )
-  }
-}
+
+// Create a provider component
+export const ThemeProvider = ({ children }) => {
+  const [theme, setTheme] = useState('light');
+
+  const toggleTheme = () => {
+    setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
+  };
+
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+};
+
+// Define prop types for ThemeProvider
+ThemeProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
